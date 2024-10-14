@@ -24,6 +24,7 @@
 				<button onclick="addMarkerClusters()">切換群聚標記點</button>
 				<button onclick="addMarker()">切換標記點</button>
 				<button onclick="toggleHeatmap()">切換熱區</button>
+				<button onclick="buffer()">定位查詢</button>
 			</div>
 		</div>
 	</body>
@@ -66,6 +67,7 @@
 			scaleControlOptions: {
 				dbClickZoomIn: false,
 				controlPosition: TGOS.TGControlPosition.BOTTOM_RIGHT,
+				disableDefaultUI: true,
 			},
 		});
 	map.setZoom(3);
@@ -175,6 +177,38 @@
 			data: createHeatmapData(),
 			map: map,
 		});
+	}
+
+	function buffer() {
+		// if (navigator.geolocation) {
+		// 	navigator.geolocation.getCurrentPosition(function (position) {
+		// 		var lat = position.coords.latitude;
+		// 		var lon = position.coords.longitude;
+
+		// 		// 使用者的位置作為地圖的中心點
+		// 		var userLocation = new TGOS.TGPoint(
+		// 			194514.4929623585,
+		// 			2624383.095935193
+		// 		); // TGOS 使用經度、緯度
+		// 		map.setCenter(userLocation); // 設置地圖中心為使用者位置
+		// 		map.setZoom(15); // 調整地圖縮放至適合的級別
+		// 	});
+		// }
+
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(function (position) {
+				var lat = position.coords.latitude;
+				var lon = position.coords.longitude;
+				const userLocation = new TGOS.TGPoint(
+					194514.4929623585,
+					2624383.095935193
+				); // TGOS 使用經度、緯度
+				map.setCenter(userLocation); // 設置地圖中心為使用者位置
+				map.setZoom(7);
+				// 		// 使用者的位置作為地圖的中心點
+				// 		// 調整地圖縮放至適合的級別
+			});
+		}
 	}
 
 	function createHeatmapData() {
