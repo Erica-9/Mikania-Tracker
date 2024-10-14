@@ -1,0 +1,35 @@
+<!-- 官方開發人員指南：tps://api.tgos.tw/TGOS_MAP_API/docs/site/web/LiteInit -->
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+		<title>TGOS MAP API (lite) --- 動態新增標記點</title>
+
+		<script
+			type="text/javascript"
+			src="http://api.tgos.tw/TGOS_API/tgos?ver=2&AppID=x+JLVSx85Lk=&APIKey=in8W74q0ogpcfW/STwicK8D5QwCdddJf05/7nb+OtDh8R99YN3T0LurV4xato3TpL/fOfylvJ9Wv/khZEsXEWxsBmg+GEj4AuokiNXCh14Rei21U5GtJpIkO++Mq3AguFK/ISDEWn4hMzqgrkxNe1Q=="
+			charset="utf-8"
+		></script>
+
+		<script type="text/javascript">
+			var mapDiv, map; //地圖元件，地圖
+
+			function main() {
+				mapDiv = document.getElementById("TGMap"); //宣告地圖元件
+				map = new TGOS.TGOnlineMap(
+					mapDiv,
+					TGOS.TGCoordSys.EPSG3826 /*坐標系統-台灣*/,
+					{
+						navigationControl: false,
+						scaleControl: false,
+						mapTypeControl: false, //不顯示地圖類型控制項
+					}
+				);
+				map.setZoom(3); //設定地圖初始畫面縮放層級
+				addMarkerClusters();
+			}
+		</script>
+	</head>
+	<body onload="main();">
+		<div id="TGMap" style="width: 800px; height: 600px"></div>
+	</body>
+</html>

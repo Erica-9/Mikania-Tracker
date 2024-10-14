@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+		<title>TGOS MAP API (lite) --- 動態新增標記點</title>
+
+		<!--呼叫TGOS MAP API (lite)-->
+		<script
+			type="text/javascript"
+			src="http://api.tgos.tw/TGOS_API/tgos?ver=2&AppID=x+JLVSx85Lk=&APIKey=in8W74q0ogpcfW/STwicK8D5QwCdddJf05/7nb+OtDh8R99YN3T0LurV4xato3TpL/fOfylvJ9Wv/khZEsXEWxsBmg+GEj4AuokiNXCh14Rei21U5GtJpIkO++Mq3AguFK/ISDEWn4hMzqgrkxNe1Q=="
+			charset="utf-8"
+		></script>
+
+		<script type="text/javascript">
+			const markers = createMarkers();
+			var mapDiv, map, mCluster;
+			var mClusters = [];
+			var heatmap;
+
+			function main() {
+				mapDiv = document.getElementById("TGMap");
+				map = new TGOS.TGOnlineMap(mapDiv, TGOS.TGCoordSys.EPSG3826, {
+					scaleControlOptions: {
+						controlPosition: TGOS.TGControlPosition.BOTTOM_RIGHT,
+					},
+				});
+				map.setZoom(3);
+				addMarkerClusters();
+			}
+
+			function addMarkerClusters() {
+				mCluster = new TGOS.TGMarkerCluster(map, markers, {});
+				mCluster.setMaxZoom(10);
+				mCluster.setVisible(true);
+				mCluster.setSearchBounds(30);
+				mCluster.redrawAll(true);
+				mClusters.push(mCluster);
+				clearHeatmap();
+			}
+
+			function clearHeatmap() {
+				if (heatmap) {
+					heatmap.setOptions({ data: [] }); // heatmap = null;
+				}
+			}
+
+			function clearMarkerClusters() {
+				if (mClusters.length > 0) {
+					for (var i = 0; i < mClusters.length; i++) {
+						mClusters[i].removeMarkers(markers, true);
+					}
+				}
+				markers.forEach((marker) => {
+					marker.setMap(map);
+				});
+				markers.forEach((marker) => {
+					marker.setVisible(true);
+				});
+				clearHeatmap(); // 清除热区
+			}
+
+			function toggleHeatmap() {
+				if (mClusters.length > 0) {
+					for (var i = 0; i < mClusters.length; i++) {
+						mClusters[i].removeMarkers(markers, true);
+					}
+				}
+				markers.forEach((marker) => {
+					marker.setVisible(false);
+				}); // 清除标记点
+
+				heatmap = new TGOS.TGHeatmapLayer({
+					data: createHeatmapData(),
+					map: map,
+				});
+			}
+
+			function random(min, max) {
+				return Math.random() * (max - min + 0.3) + min;
+			}
+
+			function createMarkers() {
+				var magnitude = 500;
+				var markers = []; //開啟新陣列
+				// Very dense data
+				for (var m = 0; m < magnitude / 2; m++) {
+					var lon = random(120.8, 121.4); //隨機新增標記點的X座標範圍
+					var lat = random(24.2, 24.5); //隨機新增標記點的Y座標範圍
+					var pt = TGOS.WGS84toTWD97(lon, lat);
+					var position = new TGOS.TGPoint(pt.x, pt.y);
+					var marker = new TGOS.TGMarker(map, position); //新增標記點
+					markers.push(marker); //將新增之標記點加入到陣列的最後面，並回傳陣列的新長度
+				}
+				// Dense data
+				for (var m = 0; m < magnitude / 8; m++) {
+					var lon = random(120, 120.5);
+					var lat = random(22.5, 23.6);
+					var pt = TGOS.WGS84toTWD97(lon, lat);
+					var position = new TGOS.TGPoint(pt.x, pt.y);
+					var marker = new TGOS.TGMarker(map, position);
+					markers.push(marker);
+				}
+				// Sparse data
+				for (var m = 0; m < magnitude / 10; m++) {
+					var lon = random(120.5, 121.28);
+					var lat = random(23.5, 24);
+					var pt = TGOS.WGS84toTWD97(lon, lat);
+					var position = new TGOS.TGPoint(pt.x, pt.y);
+					var marker = new TGOS.TGMarker(map, position);
+					markers.push(marker);
+				}
+				// Very Sparse data
+				for (var m = 0; m < magnitude / 20; m++) {
+					var lon = random(120.2, 121);
+					var lat = random(23, 23.5);
+					var pt = TGOS.WGS84toTWD97(lon, lat);
+					var position = new TGOS.TGPoint(pt.x, pt.y);
+					var marker = new TGOS.TGMarker(map, position);
+					markers.push(marker);
+				}
+				console.log(markers);
+				return markers;
+			}
+
+			function createHeatmapData() {
+				var data = [];
+				markers.forEach((marker) => {
+					var position = marker.getPosition();
+					data.push(new TGOS.TGPoint(position.x, position.y));
+				});
+				return data;
+			}
+		</script>
+	</head>
+	<body onload="main();">
+		<div id="TGMap" style="width: 800px; height: 600px"></div>
+		<input
+			type="button"
+			onclick="addMarkerClusters();"
+			value="切換群聚標記點"
+			style="height: 40px; font-size: 20px; font-family: Microsoft JhengHei"
+		/>
+		<input
+			type="button"
+			onclick="clearMarkerClusters();"
+			value="切換標記點"
+			style="height: 40px; font-size: 20px; font-family: Microsoft JhengHei"
+		/>
+		<input
+			type="button"
+			onclick="toggleHeatmap();"
+			value="切換熱區"
+			style="height: 40px; font-size: 20px; font-family: Microsoft JhengHei"
+		/>
+	</body>
+</html>

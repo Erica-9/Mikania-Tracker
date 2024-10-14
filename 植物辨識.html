@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>植物辨識</title>
+		<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	</head>
+	<body>
+		<h1>植物辨識系統</h1>
+		<input type="file" id="imageInput" accept="image/*" />
+		<button id="uploadButton">上傳圖片</button>
+		<pre id="result"></pre>
+
+		<script>
+			const apiUrl = "https://my-api.plantnet.org/v2/identify/all";
+			const apiKey = "2b10xeOhz25YY8Qt5USglwtZze"; // API 金鑰
+
+			document.getElementById("uploadButton").onclick = function () {
+				const fileInput = document.getElementById("imageInput");
+				const file = fileInput.files[0];
+
+				if (!file) {
+					alert("請選擇一張圖片！");
+					return;
+				}
+
+				const formData = new FormData();
+				formData.append("images", file); // 將選擇的圖片添加到 FormData
+				formData.append("organs", "auto"); // 相關器官
+
+				// 設定請求的查詢參數
+				const queryParams = {
+					"include-related-images": false,
+					"no-reject": false,
+					"nb-results": 10,
+					lang: "zh",
+					"api-key": apiKey,
+				};
+
+				// 發送 POST 請求
+				axios
+					.post(`${apiUrl}?${new URLSearchParams(queryParams)}`, formData, {
+						headers: {
+							...(formData.getHeaders ? formData.getHeaders() : {}), // 處理 Content-Type
+						},
+					})
+					.then((response) => {
+						// 處理 API 回應
+						document.getElementById("result").textContent = JSON.stringify(
+							response.data,
+							null,
+							2
+						);
+					})
+					.catch((error) => {
+						// 處理錯誤
+						document.getElementById("result").textContent =
+							"API 請求錯誤:" +
+							(error.response ? error.response.data : error.message);
+					});
+			};
+		</script>
+	</body>
+</html>
