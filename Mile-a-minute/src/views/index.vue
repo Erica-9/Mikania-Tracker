@@ -2,6 +2,9 @@
 import { onMounted } from 'vue';
 import PointData from '../components/PointData.vue'
 import data from '@/data';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
+
 function loadTGOSScript() {
     return new Promise((resolve, reject) => {
         const script = document.createElement('script');
@@ -122,6 +125,8 @@ function addMarker() {
                 htmlContent,
                 new TGOS.TGPoint(markers[i].position.x, markers[i].position.y),
                 {
+                    maxWidth: Number(400),
+                    disableAutoPan: true,
                     pixelOffset: new TGOS.TGSize(5, -30), //InfoWindow起始位置的偏移量, 使用TGSize設定, 向右X為正, 向上Y為負
                     zIndex: 99, //視窗堆疊順序
                 }
@@ -257,8 +262,10 @@ onMounted(() => {
         <div class="m-0">
             <div id="TGMap" class="TGMap"></div>
             <div class="useMap">
-                <input style="width: 10%" id="district" v-model="districtInput" />
-                <button @click="locateDistrict()">行政區定位 TWD97</button>
+                <div class="SearchLayout">
+                    <input id="district" v-model="districtInput" />
+                    <font-awesome-icon class="SearchIcon" :icon="faMagnifyingGlass" @click="locateDistrict()" />
+                </div>
                 <div class="mapButton">
                     <button @click="addMarkerClusters()">切換群聚標記點</button>
                     <button @click="addMarker()">切換標記點</button>
@@ -287,6 +294,31 @@ onMounted(() => {
     position: absolute;
     top: 20px;
     left: 20px;
+
+}
+
+.useMap input {
+    padding-left: 5px;
+    width: 10vw;
+    min-width: 100px;
+    height: 100%;
+    border-radius: 10px 0 0 10px;
+    /* border-color: ; */
+}
+
+.useMap input:focus {
+    outline: none;
+}
+
+.SearchLayout {
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.SearchIcon {
+    padding: 10px;
 }
 
 .mapButton {
@@ -296,9 +328,11 @@ onMounted(() => {
 }
 
 .useMap button {
+    min-width: 45px;
+    min-height: 45px;
     margin-left: 0.5vh;
     padding: 0.5vw;
-    font-size: 2vh;
+    font-size: 1.5vw;
     font-weight: bold;
     border: 0.3vw solid rgb(11, 45, 23);
     background-color: white;
