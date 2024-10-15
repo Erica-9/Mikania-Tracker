@@ -25,7 +25,7 @@
         ></div>
       </button> -->
             <div>
-                <router-link to="/"><img src="@/assets/png/蔓影追蹤.png" alt="logo" class="h-14" /></router-link>
+                <router-link to="/"><img src="@/assets/png/MT.png" alt="logo" class="h-20 w-28" /></router-link>
             </div>
         </div>
         <ul class="flex justify-between gap-4 pr-10">

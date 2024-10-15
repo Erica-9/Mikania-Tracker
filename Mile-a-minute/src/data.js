@@ -1,2 +1,2 @@
-import data from "../public/data";
-export default data;
+// import data from "../public/data";
+// export default data;
