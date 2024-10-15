@@ -17,7 +17,7 @@ function loadTGOSScript() {
     });
 }
 const messageBox = [],
-    mClusters = []
+    mClusters = [];
 
 let lastMessageBox = null,
     heatmap = null,
@@ -36,7 +36,7 @@ function main() {
     });
 
     map.setZoom(3); //設定地圖初始畫面縮放層級
-    pMap.value = map
+    pMap.value = map;
 }
 function createMarkers() {
     // let markers = []; //開啟新陣列
@@ -86,12 +86,11 @@ function createMarkers() {
         let marker = new TGOS.TGMarker(pMap.value, position);
         markersdtat.push(marker);
     }
-    markers = markersdtat
-    addMarkerClusters()
+    markers = markersdtat;
+    addMarkerClusters();
 }
 
 function addMarkerClusters() {
-
     const mCluster = new TGOS.TGMarkerCluster(pMap.value, markers, {});
     mCluster.setMaxZoom(10);
     mCluster.setVisible(true);
@@ -99,14 +98,14 @@ function addMarkerClusters() {
     mCluster.redrawAll(true);
     mClusters.push(mCluster);
     clearHeatmap();
-    districtInput.value = ""
+    districtInput.value = '';
 }
 
 function addMarker() {
     clearMarkerClusters();
     const propsData = {
-        title: 123,     // 动态传入标题
-        content: 456, // 动态传入内容
+        title: '123', // 动态传入标题
+        content: '456', // 动态传入内容
     };
     const app = createApp(PointData, propsData);
 
@@ -135,15 +134,14 @@ function addMarker() {
     }
 
     for (let i = 0; i < markers.length; i++) {
-        TGOS.TGEvent.addListener(markers[i], "click", function () {
+        TGOS.TGEvent.addListener(markers[i], 'click', function () {
             lastMessageBox?.close();
             messageBox[i].open(pMap.value);
             lastMessageBox = messageBox[i];
         });
     }
-    districtInput.value = ""
+    districtInput.value = '';
 }
-
 
 function toggleHeatmap() {
     if (mClusters.length > 0) {
@@ -159,7 +157,7 @@ function toggleHeatmap() {
         data: createHeatmapData(),
         map: pMap.value,
     });
-    districtInput.value = ""
+    districtInput.value = '';
 }
 
 function buffer() {
@@ -167,10 +165,7 @@ function buffer() {
         navigator.geolocation.getCurrentPosition(function (position) {
             var lat = position.coords.latitude;
             var lon = position.coords.longitude;
-            const userLocation = new TGOS.TGPoint(
-                194514.4929623585,
-                2624383.095935193
-            ); // TGOS 使用經度、緯度
+            const userLocation = new TGOS.TGPoint(194514.4929623585, 2624383.095935193); // TGOS 使用經度、緯度
             pMap.value.setCenter(userLocation); // 設置地圖中心為使用者位置
             pMap.value.setZoom(8);
             // 		// 使用者的位置作為地圖的中心點
@@ -212,7 +207,7 @@ function locateDistrict() {
     if (fill) {
         fill.setMap(null);
     }
-    const locator = new TGOS.TGLocateService()
+    const locator = new TGOS.TGLocateService();
     locator.locateTWD97(
         {
             district: districtInput.value,
@@ -229,36 +224,33 @@ function locateDistrict() {
             //讀取行政區空間資訊
             fill = new TGOS.TGFill(pMap.value, pgn, {
                 //將行政區空間資訊以面圖徵呈現
-                fillColor: "#00AAAA",
+                fillColor: '#00AAAA',
                 fillOpacity: 0.2,
-                strokeColor: "#009090",
+                strokeColor: '#009090',
                 strokeWeight: 5,
                 strokeOpacity: 1,
             });
             addMarker();
         }
     );
-
 }
-
 
 // 使用 Vue 的 onMounted 來初始化地圖
 onMounted(() => {
     loadTGOSScript()
         .then(() => {
             main(); // TGOS API 加載完成後初始化地圖
-            createMarkers()
+            createMarkers();
         })
         .catch((err) => {
             console.error('TGOS API 加載失敗', err);
         });
-
 });
 </script>
 
 <template>
     <Header />
-    <div class="bg-background  flex justify-center flex-row pt-10 p-8">
+    <div class="bg-background flex justify-center flex-row pt-10 p-8 h-[100vh]">
         <div class="m-0">
             <div id="TGMap" class="TGMap"></div>
             <div class="useMap">
@@ -280,7 +272,7 @@ onMounted(() => {
 <style>
 .TGMap {
     width: 70vw;
-    height: 50vw;
+    height: 50vh;
 }
 
 .m-0 {

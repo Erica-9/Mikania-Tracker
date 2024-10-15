@@ -1,3 +1,6 @@
-<script></script>
-<template>123</template>
+<script setup></script>
+<template>
+    <Header />
+    <div class="bg-background flex justify-center flex-row pt-10 p-8 h-[100vh]"></div>
+</template>
 <style></style>
