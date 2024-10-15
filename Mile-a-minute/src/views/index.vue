@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted } from 'vue';
-
+import data from '@/data';
 function loadTGOSScript() {
     return new Promise((resolve, reject) => {
         const script = document.createElement('script');
@@ -59,7 +59,7 @@ function getMapType() {
     }
 }
 
-function addMarkerClusters() {}
+function addMarkerClusters() { }
 
 // 使用 Vue 的 onMounted 來初始化地圖
 onMounted(() => {

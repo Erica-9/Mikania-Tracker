@@ -180,21 +180,6 @@
 	}
 
 	function buffer() {
-		// if (navigator.geolocation) {
-		// 	navigator.geolocation.getCurrentPosition(function (position) {
-		// 		var lat = position.coords.latitude;
-		// 		var lon = position.coords.longitude;
-
-		// 		// 使用者的位置作為地圖的中心點
-		// 		var userLocation = new TGOS.TGPoint(
-		// 			194514.4929623585,
-		// 			2624383.095935193
-		// 		); // TGOS 使用經度、緯度
-		// 		map.setCenter(userLocation); // 設置地圖中心為使用者位置
-		// 		map.setZoom(15); // 調整地圖縮放至適合的級別
-		// 	});
-		// }
-
 		if (navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition(function (position) {
 				var lat = position.coords.latitude;
