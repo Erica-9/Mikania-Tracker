@@ -238,11 +238,11 @@
 					map.setZoom(3);
 					return;
 				}
+				console.log(map);
 				map.fitBounds(e[0].geometry.viewport);
 				map.setZoom(map.getZoom());
 				//調整畫面符合行政區邊界
 				let pgn = e[0].geometry.geometry;
-				console.log(pgn);
 				//讀取行政區空間資訊
 				fill = new TGOS.TGFill(map, pgn, {
 					//將行政區空間資訊以面圖徵呈現
