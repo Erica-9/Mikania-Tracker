@@ -1,7 +1,8 @@
 <script setup></script>
 <template>
-    <div>
-        <h1></h1>
+    <Header />
+    <div class="bg-background flex justify-center flex-row pt-10 p-8 h-[100vh]">
+        <h1>555</h1>
     </div>
 </template>
 

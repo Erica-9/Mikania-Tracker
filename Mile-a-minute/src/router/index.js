@@ -4,7 +4,7 @@ const routes = [
     path: '/',
     name: 'login',
     meta: {
-      title: 'login'
+      title: '123'
     },
     component: () => import("../views/index.vue")
   },
@@ -17,6 +17,16 @@ const routes = [
     path: '/information-map',
     name: 'informationMap',
     component: () => import("../views/informationMap.vue"),
+  },
+  {
+    path: '/identify',
+    name: 'identify',
+    component: () => import("../views/identify.vue"),
+  },
+  {
+    path: '/product',
+    name: 'product',
+    component: () => import("../views/product.vue"),
   },
 ]
 const router = createRouter({

@@ -31,8 +31,8 @@
         <ul class="flex justify-between gap-4 pr-10">
             <li><router-link to="/history-map">歷史地圖</router-link></li>
             <li><router-link to="/information-map">資料地圖</router-link></li>
-            <li><router-link to="/">分辨蔓</router-link></li>
-            <li><router-link to="/">蔓產品</router-link></li>
+            <li><router-link to="/identify">分辨蔓</router-link></li>
+            <li><router-link to="/product">蔓產品</router-link></li>
         </ul>
     </div>
 </template>
