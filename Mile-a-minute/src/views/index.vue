@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted } from 'vue';
-import PointData from '../components/PointData.vue'
+import PointData from '../components/PointData.vue';
 import data from '@/data';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
@@ -119,16 +119,12 @@ function addMarker() {
         markers[i].setVisible(true);
         markers[i].setIcon(null);
         messageBox.push(
-            new TGOS.TGInfoWindow(
-                htmlContent,
-                new TGOS.TGPoint(markers[i].position.x, markers[i].position.y),
-                {
-                    maxWidth: Number(400),
-                    disableAutoPan: true,
-                    pixelOffset: new TGOS.TGSize(5, -30), //InfoWindow起始位置的偏移量, 使用TGSize設定, 向右X為正, 向上Y為負
-                    zIndex: 99, //視窗堆疊順序
-                }
-            )
+            new TGOS.TGInfoWindow(htmlContent, new TGOS.TGPoint(markers[i].position.x, markers[i].position.y), {
+                maxWidth: Number(400),
+                disableAutoPan: true,
+                pixelOffset: new TGOS.TGSize(5, -30), //InfoWindow起始位置的偏移量, 使用TGSize設定, 向右X為正, 向上Y為負
+                zIndex: 99, //視窗堆疊順序
+            })
         );
     }
 

@@ -6,46 +6,63 @@
     <title>小花蔓澤蘭擴散動畫</title>
     <style>
         body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column; /* 使按鈕位於地圖上方 */
-            align-items: center; /* 水平居中 */
-            background-color: #f0f0f0;
-        }
-        #map {
-            height: 600px;
-            width: 1400px;
-            margin-top: 10px; /* 與按鈕保持一點距離 */
-        }
-        #info-box {
-            position: absolute;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: rgba(255, 255, 255, 0.8);
-            border: 1px solid #ccc;
-            padding: 10px;
-            border-radius: 5px;
-            z-index: 1000;
-            font-size: 14px;
-        }
-        #replay-button {
-            position: absolute;
-            bottom: 10px; /* 距離底部的距離 */
-            left: 37%; /* 距離左邊的距離 */
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #18b55c;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            z-index: 1000; /* 確保按鈕在地圖上方 */
-        }
-        #replay-button:hover {
-            background-color: #044f1e;
-        }
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column; /* 使按鈕位於地圖上方 */
+    align-items: center; /* 水平居中 */
+    background-color: #f0f0f0;
+}
+#map {
+    height: 600px;
+    width: 100%; /* 使用百分比寬度 */
+    max-width: 1400px; /* 設定最大寬度 */
+    margin-top: 10px; /* 與按鈕保持一點距離 */            
+}
+
+footer {          
+    display: flex; /* 使用 Flexbox 布局 */
+    justify-content: center; /* 使子元素水平居中 */
+    align-items: center; /* 垂直方向上居中對齊 */
+    margin-top: 10px;
+    padding: 10px; /* 添加內邊距以改善外觀 */
+    background-color: #f0f0f0; /* 可選：為 footer 添加背景色 */
+    width: 100%; /* 讓 footer 占滿整個寬度 */
+    position: relative; /* 可選：確保 footer 在正確位置 */
+}
+
+#info-box {
+    position: absolute;
+    transform: translateX(-50%);
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid #ccc;
+    text-align: center;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 1000;
+    margin-right: 10%;
+    font-size: 16px; /* 字體大小可根據需求調整 */
+    max-width: 150px; /* 設定最大寬度 */
+    width: 80%; /* 使用百分比寬度 */
+}
+
+#replay-button {
+    position: absolute;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #18b55c;
+    color: white;
+    border: none;
+    margin-left: 40%; /* 添加右邊距以分開信息框和按鈕 */
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 1000; /* 確保按鈕在地圖上方 */
+}
+
+#replay-button:hover {
+    background-color: #044f1e;
+}
+
     </style>
     <script
     type="text/javascript"
@@ -54,78 +71,157 @@
     ></script>
 </head>
 <body>
-    <button id="replay-button">重新播放動畫</button>
-    <div id="map"></div>
-    <div id="info-box">擴散信息將顯示在這裡</div>
+    <div id="map"></div>   
 
     <script>
         function initMap() {
             const map = new TGOS.TGOnlineMap(document.getElementById('map'), TGOS.TGCoordSys.EPSG3857);
+             // 設定地圖初始位置為巴西
+             const initialPoint = new TGOS.TGPoint(-51.0, -14.2); // 巴西的坐標
+             map.setCenter(initialPoint); // 設定中心點
+             map.setZoom(4); // 設定縮放級別
 
-            const spreadData = [
-                { year: 1900, region: "東南亞", coords: [105.0, 10.0] },
-                { year: 1950, region: "亞熱帶", coords: [120.0, 30.0] },
-                { year: 1950, region: "大洋洲", coords: [135.0, -25.0] },
-                { year: 1970, region: "澳洲", coords: [150.0, -27.0] },
-                { year: 1980, region: "台灣", coords: [121.0, 23.5] },
-                { year: 1990, region: "廣東和香港", coords: [113.5, 22.3] },
-                { year: 2000, region: "廣東和香港", coords: [113.5, 22.3] }
+             const spreadData = [
+                { year: 1950, region: "東南亞", coords: [105.0, 10.0], duration: 3000 }, 
+                { year: 1950, region: "亞熱帶", coords: [120.0, 30.0], duration: 1200 }, 
+                { year: 1950, region: "大洋洲", coords: [135.0, -25.0], duration: 2000 }, 
+                { year: 1970, region: "澳洲", coords: [150.0, -27.0], duration: 500 }, 
+                { year: 1980, region: "台灣", coords: [121.0, 23.5], duration: 1500 }, 
+                { year: 1990, region: "廣東和香港", coords: [113.5, 22.3], duration: 400 } 
             ];
 
-            const bounds = new TGOS.TGEnvelope(90, -35, 160, 40);
-            const centerPoint = new TGOS.TGPoint((bounds.minX + bounds.maxX) / 2, (bounds.minY + bounds.maxY) / 2);
+
+            const points = [
+                new TGOS.TGPoint(-51.0, -14.2), // 巴西
+                new TGOS.TGPoint(105.0, 10.0), // 東南亞
+                new TGOS.TGPoint(120.0, 30.0), // 亞熱帶
+                new TGOS.TGPoint(135.0, -25.0), // 大洋洲
+                new TGOS.TGPoint(150.0, -27.0), // 澳洲
+                new TGOS.TGPoint(121.0, 23.5), // 台灣
+                new TGOS.TGPoint(113.5, 22.3)  // 廣東和香港
+            ];
+
+            const angles = [0, 300, 80, 25, 240, 180];
 
             let markers = []; // 存儲所有標記點的數組
+            let pTGMarker; // 箭頭標記
+            let pTGSymbo; // 將pTGSymbo 移到這里，提升到作用域
+            let animationTimeout;
 
             function drawRegionMarker(region) {
                 const marker = new TGOS.TGMarker(map, new TGOS.TGPoint(region.coords[0], region.coords[1]), region.region);
                 markers.push(marker); // 將新標記添加到數組中
 
                 const infoBox = document.getElementById('info-box');
-                infoBox.innerHTML = `${region.year} - ${region.region}`;
+                infoBox.innerHTML = `${region.year} - ${region.region}`;              
                 
-                const point = new TGOS.TGPoint(region.coords[0], region.coords[1]);
-                map.setCenter(point);
-                map.setZoom(4);
             }
 
             function clearMarkers() {
-                // 移除所有標記點
                 markers.forEach(marker => {
                     marker.setMap(null);
                 });
                 markers = []; // 清空數組
             }
 
-            let animationTimeout;
             function createAnimation() {
                 clearMarkers(); // 在每次動畫開始前清除標記
                 let currentIndex = 0;
 
-                function animate() {
-                    if (currentIndex < spreadData.length) {
-                        drawRegionMarker(spreadData[currentIndex]);
-                        currentIndex++;
-                        animationTimeout = setTimeout(animate, 2000);
-                    }
+            function animate() {
+                if (currentIndex === 0) {
+                    // 如果是巴西，先等待兩秒再開始動畫
+                    setTimeout(() => {
+                        animateArrow(currentIndex, () => {
+                            drawRegionMarker(spreadData[currentIndex]);
+                            currentIndex++;
+                            animationTimeout = setTimeout(animate, 1000); // 1秒後繼續動畫
+                            });
+                        }, 2000); // 等待兩秒
+                    } 
+                else if (currentIndex < spreadData.length) {
+                    // 先移動箭頭
+                    animateArrow(currentIndex, () => {
+                    // 移動完成後顯示標記點
+                    drawRegionMarker(spreadData[currentIndex]);
+                    currentIndex++;
+                    animationTimeout = setTimeout(animate, 1000); // 1秒後繼續動畫
+                    });
                 }
-
-                animate();
             }
+
+            animate();
+        }
+
 
             function resetAnimation() {
                 clearTimeout(animationTimeout); // 停止當前的動畫
                 createAnimation(); // 重新播放動畫
             }
 
-            document.getElementById('replay-button').addEventListener('click', resetAnimation);
+            function animateArrow(currentSegment, callback) {
+    if (!pTGMarker) {
+        // 創建箭頭標記
+        pTGSymbo = new TGOS.TGSymbol(); // 在此處初始化 pTGSymbo
+        pTGSymbo.symbolStyle = TGOS.TGSymbolStyle.FORWARD_CLOSED_ARROW;
+        pTGSymbo.xPixel = 64;
+        pTGSymbo.yPixel = 64;
+        pTGSymbo.fillColor = "#18b55c";
+        pTGSymbo.fillOpacity = 0.7;
+        pTGSymbo.strokeWeight = 2;
+        pTGSymbo.strokeOpacity = 0.4;
+        pTGSymbo.strokeColor = "#000000";
+        pTGSymbo.anchor.x = 32;
+        pTGSymbo.anchor.y = 32;
 
-            map.fitBounds(bounds);
-            map.setCenter(centerPoint);
-            createAnimation();
+        pTGMarker = new TGOS.TGMarker(map, points[0], '', pTGSymbo);
+        pTGMarker.setFlat(true);
+    }
+
+    let currentFrame = 0;
+    const duration = spreadData[currentSegment].duration; // 使用從 spreadData 獲取的持續時間
+    const frameRate = 60; // 幀率
+    const interval = 1000 / frameRate; // 每幀的間隔時間
+    const frameCount = duration / interval;
+    const startPoint = points[currentSegment];
+    const endPoint = points[currentSegment + 1];
+    const deltaX = (endPoint.x - startPoint.x) / frameCount;
+    const deltaY = (endPoint.y - startPoint.y) / frameCount;
+
+    function updateArrow() {
+        const newX = startPoint.x + deltaX * currentFrame;
+        const newY = startPoint.y + deltaY * currentFrame;
+        const newPoint = new TGOS.TGPoint(newX, newY);
+        pTGMarker.setPosition(newPoint);
+        const angle = angles[currentSegment];
+        pTGSymbo.rotation = angle;
+        pTGMarker.setIcon(pTGSymbo);
+        map.setCenter(newPoint);
+        currentFrame++;
+
+        if (currentFrame < frameCount) {
+            setTimeout(updateArrow, interval);
+        } else {
+            callback(); // 動畫完成後調用回調函數
+        }
+    }
+
+    updateArrow();
+}
+
+
+            document.getElementById('replay-button').onclick = function() {
+                resetAnimation();
+            };
+
+            createAnimation(); // 啟動初始動畫
         }
 
         window.onload = initMap;
     </script>
 </body>
+<footer>
+    <button id="replay-button">重新播放動畫</button>
+    <div id="info-box">原生地 - 巴西</div></br>
+</footer>
 </html>
