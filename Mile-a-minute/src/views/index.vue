@@ -4,6 +4,8 @@ import PointData from '../components/PointData.vue'
 import data from '@/data';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
+import markerImg from '@/assets/png/grass.png'
+import markerImg2 from '@/assets/png/tack.png'
 
 function loadTGOSScript() {
     return new Promise((resolve, reject) => {
@@ -48,7 +50,7 @@ function createMarkers() {
     //     markers.push(marker); //將新增之標記點加入到陣列的最後面，並回傳陣列的新長度
     // }
     // return markers;
-    let magnitude = 500;
+    let magnitude = 300;
     const markersdtat = []; //開啟新陣列
     // Very dense data
     for (let m = 0; m < magnitude / 2; m++) {
@@ -108,17 +110,14 @@ function addMarker() {
         content: '456', // 动态传入内容
     };
     const app = createApp(PointData, propsData);
-
-    // 创建一个容器来存放渲染的内容
     const container = document.createElement('div');
-
-    // 将 PointData 组件挂载到容器中
     app.mount(container);
     const htmlContent = container.innerHTML;
+
     for (let i = 0; i < markers.length; i++) {
         markers[i].setMap(pMap.value);
         markers[i].setVisible(true);
-
+        markers[i].setIcon(null);
         messageBox.push(
             new TGOS.TGInfoWindow(
                 htmlContent,
@@ -173,7 +172,15 @@ function buffer() {
         });
     }
 }
-
+function Sort() {
+    const Img = new TGOS.TGImage(markerImg, new TGOS.TGSize(21, 21), new TGOS.TGPoint(0, 0), new TGOS.TGPoint(11, 11));
+    const Img2 = new TGOS.TGImage(markerImg2, new TGOS.TGSize(24, 24), new TGOS.TGPoint(12, 12), new TGOS.TGPoint(0, 0))
+    clearMarkerClusters();
+    for (let i = 0; i < markers.length; i++) {
+        markers[i].setIcon(Img);
+    }
+    districtInput.value = '';
+}
 function createHeatmapData() {
     let data = [];
     markers.forEach((marker) => {
@@ -250,7 +257,7 @@ onMounted(() => {
 
 <template>
     <Header />
-    <div class="bg-background flex justify-center flex-row pt-0 p-8 h-[100vh]">
+    <div class="Layout">
         <div class="m-0">
             <div id="TGMap" class="TGMap"></div>
             <div class="useMap">
@@ -263,6 +270,7 @@ onMounted(() => {
                     <button @click="addMarker()">切換標記點</button>
                     <button @click="toggleHeatmap()">切換熱區</button>
                     <button @click="buffer()">定位查詢</button>
+                    <button @click="Sort()">分類</button>
                 </div>
             </div>
         </div>
@@ -270,9 +278,13 @@ onMounted(() => {
 </template>
 
 <style>
+.Layout {
+    width: auto;
+}
+
 .TGMap {
-    width: 70vw;
-    height: 70vh;
+    height: calc(100vh - 5rem);
+
 }
 
 .m-0 {
@@ -285,14 +297,16 @@ onMounted(() => {
     width: 100%;
     position: absolute;
     top: 20px;
-    left: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
 
 }
 
 .useMap input {
     padding-left: 5px;
     width: 10vw;
-    min-width: 100px;
+    min-width: 300px;
     height: 100%;
     border-radius: 10px 0 0 10px;
     /* border-color: ; */
@@ -303,6 +317,8 @@ onMounted(() => {
 }
 
 .SearchLayout {
+    border: 3px solid black;
+    margin: 10px 0;
     background-color: white;
     border-radius: 10px;
     display: flex;
@@ -324,7 +340,7 @@ onMounted(() => {
     min-height: 45px;
     margin-left: 0.5vh;
     padding: 0.5vw;
-    font-size: 1.5vw;
+    font-size: 1vw;
     font-weight: bold;
     border: 0.3vw solid rgb(11, 45, 23);
     background-color: white;

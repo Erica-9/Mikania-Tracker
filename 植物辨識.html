@@ -48,8 +48,7 @@
 					.then((response) => {
 						// 處理 API 回應
 						document.getElementById("result").textContent = JSON.stringify(
-							response.data.results[0].score +
-								response.data.results[0].species.commonNames[1],
+							response.data.results,
 							null,
 							2
 						);
