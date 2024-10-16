@@ -1,9 +1,9 @@
 <script setup>
 import { onMounted } from 'vue';
-import PointData from '../components/PointData.vue'
+import PointData from '../components/PointData.vue';
 import data from '@/data';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 function loadTGOSScript() {
     return new Promise((resolve, reject) => {
@@ -120,16 +120,12 @@ function addMarker() {
         markers[i].setVisible(true);
 
         messageBox.push(
-            new TGOS.TGInfoWindow(
-                htmlContent,
-                new TGOS.TGPoint(markers[i].position.x, markers[i].position.y),
-                {
-                    maxWidth: Number(400),
-                    disableAutoPan: true,
-                    pixelOffset: new TGOS.TGSize(5, -30), //InfoWindow起始位置的偏移量, 使用TGSize設定, 向右X為正, 向上Y為負
-                    zIndex: 99, //視窗堆疊順序
-                }
-            )
+            new TGOS.TGInfoWindow(htmlContent, new TGOS.TGPoint(markers[i].position.x, markers[i].position.y), {
+                maxWidth: Number(400),
+                disableAutoPan: true,
+                pixelOffset: new TGOS.TGSize(5, -30), //InfoWindow起始位置的偏移量, 使用TGSize設定, 向右X為正, 向上Y為負
+                zIndex: 99, //視窗堆疊順序
+            })
         );
     }
 
@@ -249,20 +245,22 @@ onMounted(() => {
 </script>
 
 <template>
-    <Header />
-    <div class="bg-background flex justify-center flex-row pt-0 p-8 h-[100vh]">
-        <div class="m-0">
-            <div id="TGMap" class="TGMap"></div>
-            <div class="useMap">
-                <div class="SearchLayout">
-                    <input id="district" v-model="districtInput" />
-                    <font-awesome-icon class="SearchIcon" :icon="faMagnifyingGlass" @click="locateDistrict()" />
-                </div>
-                <div class="mapButton">
-                    <button @click="addMarkerClusters()">切換群聚標記點</button>
-                    <button @click="addMarker()">切換標記點</button>
-                    <button @click="toggleHeatmap()">切換熱區</button>
-                    <button @click="buffer()">定位查詢</button>
+    <div>
+        <Header />
+        <div class="bg-background flex justify-center flex-row pt-0 p-8 h-[100vh]">
+            <div class="m-0">
+                <div id="TGMap" class="TGMap"></div>
+                <div class="useMap">
+                    <div class="SearchLayout">
+                        <input id="district" v-model="districtInput" />
+                        <font-awesome-icon class="SearchIcon" :icon="faMagnifyingGlass" @click="locateDistrict()" />
+                    </div>
+                    <div class="mapButton">
+                        <button @click="addMarkerClusters()">切換群聚標記點</button>
+                        <button @click="addMarker()">切換標記點</button>
+                        <button @click="toggleHeatmap()">切換熱區</button>
+                        <button @click="buffer()">定位查詢</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -286,7 +284,6 @@ onMounted(() => {
     position: absolute;
     top: 20px;
     left: 20px;
-
 }
 
 .useMap input {
