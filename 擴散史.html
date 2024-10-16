@@ -6,55 +6,63 @@
     <title>小花蔓澤蘭擴散動畫</title>
     <style>
         body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column; /* 使按鈕位於地圖上方 */
-            align-items: center; /* 水平居中 */
-            background-color: #f0f0f0;
-        }
-        #map {
-            height: 600px;
-            width: 1400px;
-            margin-top: 10px; /* 與按鈕保持一點距離 */            
-        }
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column; /* 使按鈕位於地圖上方 */
+    align-items: center; /* 水平居中 */
+    background-color: #f0f0f0;
+}
+#map {
+    height: 600px;
+    width: 100%; /* 使用百分比寬度 */
+    max-width: 1400px; /* 設定最大寬度 */
+    margin-top: 10px; /* 與按鈕保持一點距離 */            
+}
 
-        footer {          
-            display: flex; /* 使用 Flexbox 布局 */
-            justify-content: center; /* 使子元素水平居中 */
-            align-items: center; /* 垂直方向上居中對齊 */
-            margin-top: 10px;
-            padding: 10px; /* 添加內邊距以改善外觀 */
-            background-color: #f0f0f0; /* 可選：為 footer 添加背景色 */
-            width: 100%; /* 讓 footer 占滿整個寬度 */
-            position: relative; /* 可選：確保 footer 在正確位置 */
-        }
+footer {          
+    display: flex; /* 使用 Flexbox 布局 */
+    justify-content: center; /* 使子元素水平居中 */
+    align-items: center; /* 垂直方向上居中對齊 */
+    margin-top: 10px;
+    padding: 10px; /* 添加內邊距以改善外觀 */
+    background-color: #f0f0f0; /* 可選：為 footer 添加背景色 */
+    width: 100%; /* 讓 footer 占滿整個寬度 */
+    position: relative; /* 可選：確保 footer 在正確位置 */
+}
 
-        #info-box {
-            position: absolute;
-            transform: translateX(-50%);
-            background-color: rgba(255, 255, 255, 0.8);
-            border: 1px solid #ccc;
-            padding: 10px;
-            border-radius: 5px;
-            z-index: 1000;
-            font-size: 16px;
-        }
-        #replay-button {
-            position: absolute;
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #18b55c;
-            color: white;
-            border: none;
-            margin-left: 20%; /* 添加右邊距以分開信息框和按鈕 */
-            border-radius: 5px;
-            cursor: pointer;
-            z-index: 1000; /* 確保按鈕在地圖上方 */
-        }
-        #replay-button:hover {
-            background-color: #044f1e;
-        }
+#info-box {
+    position: absolute;
+    transform: translateX(-50%);
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid #ccc;
+    text-align: center;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 1000;
+    margin-right: 10%;
+    font-size: 16px; /* 字體大小可根據需求調整 */
+    max-width: 150px; /* 設定最大寬度 */
+    width: 80%; /* 使用百分比寬度 */
+}
+
+#replay-button {
+    position: absolute;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #18b55c;
+    color: white;
+    border: none;
+    margin-left: 40%; /* 添加右邊距以分開信息框和按鈕 */
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 1000; /* 確保按鈕在地圖上方 */
+}
+
+#replay-button:hover {
+    background-color: #044f1e;
+}
+
     </style>
     <script
     type="text/javascript"
