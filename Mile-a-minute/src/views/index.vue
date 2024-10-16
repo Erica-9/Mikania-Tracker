@@ -250,7 +250,7 @@ onMounted(() => {
 
 <template>
     <Header />
-    <div class="bg-background flex justify-center flex-row pt-10 p-8 h-[100vh]">
+    <div class="bg-background flex justify-center flex-row pt-0 p-8 h-[100vh]">
         <div class="m-0">
             <div id="TGMap" class="TGMap"></div>
             <div class="useMap">
@@ -272,7 +272,7 @@ onMounted(() => {
 <style>
 .TGMap {
     width: 70vw;
-    height: 50vh;
+    height: 70vh;
 }
 
 .m-0 {
