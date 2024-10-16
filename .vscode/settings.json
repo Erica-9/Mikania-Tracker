@@ -1,3 +1,37 @@
 {
-	"liveServer.settings.port": 5501
+	"liveServer.settings.port": 5501,
+	"explorer.confirmDelete": false,
+    "workbench.editorAssociations": {
+        "*.ipynb": "jupyter.notebook.ipynb"
+    },
+    "redhat.telemetry.enabled": true,
+    "security.workspace.trust.untrustedFiles": "open",
+    "editor.formatOnSave": true,
+    "bracketPairColorizer.depreciation-notice": false,
+    "workbench.iconTheme": "vscode-icons",
+    "[javascript]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features"
+    },
+    "[vue]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[html]": {
+        "editor.defaultFormatter": "Vue.volar"
+    },
+    "python.analysis.indexing": false,
+    "prettier.singleQuote": true,
+    "prettier.printWidth": 120,
+    "prettier.trailingComma": "es5",
+    "prettier.tabWidth": 4,
+    "liveServer.settings.donotShowInfoMsg": true,
+    "tabnine.experimentalAutoImports": true,
+    "explorer.confirmDragAndDrop": false,
+    "[python]": {
+        "editor.formatOnType": true
+    },
+    "tailwindCSS.includeLanguages": {
+        "plaintext": "html"
+    },
+    "editor.maxTokenizationLineLength": 10000,
+    "window.zoomLevel": 0
 }

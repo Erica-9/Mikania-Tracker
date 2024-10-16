@@ -14,11 +14,6 @@ const routes = [
     component: () => import("../views/historyMap.vue"),
   },
   {
-    path: '/information-map',
-    name: 'informationMap',
-    component: () => import("../views/informationMap.vue"),
-  },
-  {
     path: '/identify',
     name: 'identify',
     component: () => import("../views/identify.vue"),
