@@ -39,28 +39,30 @@ const revealAnswer = (index) => {
 };
 </script>
 <template>
-    <Header />
-    <div class="bg-background pt-10 p-8 h-[100vh] font-serif">
-        <h1 class="text-2xl pb-6 font-semibold">小花蔓澤蘭的生長過程⋯</h1>
+    <div>
+        <Header />
+        <div class="bg-background pt-10 p-8 h-[100vh] font-serif">
+            <h1 class="text-2xl pb-6 font-semibold">小花蔓澤蘭的生長過程⋯</h1>
 
-        <!-- 遍歷所有問題 -->
-        <div v-for="(question, index) in questions" :key="question.id" class="mb-6 flex flex-row items-center">
-            <!-- 顯示問題，如果 visible 為 true -->
-            <div v-if="question.visible" class="h-12 flex flex-row items-center">
-                <h1 class="text-xl pb-3">{{ question.text }}</h1>
+            <!-- 遍歷所有問題 -->
+            <div v-for="(question, index) in questions" :key="question.id" class="mb-6 flex flex-row items-center">
+                <!-- 顯示問題，如果 visible 為 true -->
+                <div v-if="question.visible" class="h-12 flex flex-row items-center">
+                    <h1 class="text-xl pb-3">{{ question.text }}</h1>
 
-                <!-- 答案卡的按鈕，點擊後顯示答案 -->
-                <button
-                    v-if="!question.answerRevealed"
-                    @click="revealAnswer(index)"
-                    class="bg-gray-200 p-3 rounded hover:bg-gray-300"
-                >
-                    點擊翻開答案卡
-                </button>
+                    <!-- 答案卡的按鈕，點擊後顯示答案 -->
+                    <button
+                        v-if="!question.answerRevealed"
+                        @click="revealAnswer(index)"
+                        class="bg-gray-200 p-3 rounded hover:bg-gray-300"
+                    >
+                        點擊翻開答案卡
+                    </button>
 
-                <!-- 顯示答案 -->
-                <div v-if="question.answerRevealed" class="mt-3">
-                    <p class="text-green-600">{{ question.answer }}</p>
+                    <!-- 顯示答案 -->
+                    <div v-if="question.answerRevealed" class="mt-3">
+                        <p class="text-green-600">{{ question.answer }}</p>
+                    </div>
                 </div>
             </div>
         </div>
