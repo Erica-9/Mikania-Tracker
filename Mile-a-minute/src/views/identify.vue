@@ -3,14 +3,14 @@ const questions = ref([
     {
         id: 1,
         text: '猜猜看⋯小花蔓澤蘭一天可以生長幾公分？',
-        answer: '它每天可以生長約12公分！',
+        answer: '它每天可以生長約23公分！',
         answerRevealed: false,
         visible: true,
     },
     {
         id: 2,
         text: '小花蔓澤蘭的葉子是什麼形狀的呢？',
-        answer: '小花蔓澤蘭的葉子是心形的。',
+        answer: '心形或三角形。',
         answerRevealed: false,
         visible: false,
     },
@@ -24,7 +24,7 @@ const questions = ref([
     {
         id: 4,
         text: '小花蔓澤蘭是如何散播的？',
-        answer: '它主要靠風和水來散播種子。',
+        answer: '它主要靠風、水及附著在動物身上來散播種子。',
         answerRevealed: false,
         visible: false,
     },
@@ -42,28 +42,32 @@ const revealAnswer = (index) => {
     <div>
         <Header />
         <div class="bg-background pt-10 p-8 h-[100vh] font-serif">
-            <h1 class="text-2xl pb-6 font-semibold">小花蔓澤蘭的生長過程⋯</h1>
+            <div class="relative">
+                <h1 class="text-2xl pb-6 font-semibold">小花蔓澤蘭的生長過程⋯</h1>
 
-            <!-- 遍歷所有問題 -->
-            <div v-for="(question, index) in questions" :key="question.id" class="mb-6 flex flex-row items-center">
-                <!-- 顯示問題，如果 visible 為 true -->
-                <div v-if="question.visible" class="h-12 flex flex-row items-center">
-                    <h1 class="text-xl pb-3">{{ question.text }}</h1>
+                <!-- 遍歷所有問題 -->
+                <div v-for="(question, index) in questions" :key="question.id" class="mb-6 flex flex-row items-center">
+                    <!-- 顯示問題，如果 visible 為 true -->
+                    <div v-if="question.visible" class="h-12 flex flex-row items-center">
+                        <h1 class="text-xl pb-3">{{ question.text }}</h1>
 
-                    <!-- 答案卡的按鈕，點擊後顯示答案 -->
-                    <button
-                        v-if="!question.answerRevealed"
-                        @click="revealAnswer(index)"
-                        class="bg-gray-200 p-3 rounded hover:bg-gray-300"
-                    >
-                        點擊翻開答案卡
-                    </button>
+                        <!-- 答案卡的按鈕，點擊後顯示答案 -->
+                        <button
+                            v-if="!question.answerRevealed"
+                            @click="revealAnswer(index)"
+                            class="bg-gray-200 p-3 rounded hover:bg-gray-300"
+                        >
+                            點擊翻開答案卡
+                        </button>
 
-                    <!-- 顯示答案 -->
-                    <div v-if="question.answerRevealed" class="mt-3">
-                        <p class="text-green-600">{{ question.answer }}</p>
+                        <!-- 顯示答案 -->
+                        <div v-if="question.answerRevealed" class="mt-3">
+                            <p class="text-green-600">{{ question.answer }}</p>
+                        </div>
                     </div>
                 </div>
+
+                <h1 class="text-2xl pb-4 font-semibold absolute top-[350px]">小花蔓澤蘭帶來什麼危害？</h1>
             </div>
         </div>
     </div>
