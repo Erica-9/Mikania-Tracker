@@ -81,14 +81,15 @@ footer {
              map.setCenter(initialPoint); // 設定中心點
              map.setZoom(4); // 設定縮放級別
 
-            const spreadData = [
-                { year: 1950, region: "東南亞", coords: [105.0, 10.0] },
-                { year: 1950, region: "亞熱帶", coords: [120.0, 30.0] },
-                { year: 1950, region: "大洋洲", coords: [135.0, -25.0] },
-                { year: 1970, region: "澳洲", coords: [150.0, -27.0] },
-                { year: 1980, region: "台灣", coords: [121.0, 23.5] },
-                { year: 1990, region: "廣東和香港", coords: [113.5, 22.3] }
+             const spreadData = [
+                { year: 1950, region: "東南亞", coords: [105.0, 10.0], duration: 3000 }, 
+                { year: 1950, region: "亞熱帶", coords: [120.0, 30.0], duration: 1200 }, 
+                { year: 1950, region: "大洋洲", coords: [135.0, -25.0], duration: 2000 }, 
+                { year: 1970, region: "澳洲", coords: [150.0, -27.0], duration: 500 }, 
+                { year: 1980, region: "台灣", coords: [121.0, 23.5], duration: 1500 }, 
+                { year: 1990, region: "廣東和香港", coords: [113.5, 22.3], duration: 400 } 
             ];
+
 
             const points = [
                 new TGOS.TGPoint(-51.0, -14.2), // 巴西
@@ -112,8 +113,7 @@ footer {
                 markers.push(marker); // 將新標記添加到數組中
 
                 const infoBox = document.getElementById('info-box');
-                infoBox.innerHTML = `${region.year} - ${region.region}`;
-                
+                infoBox.innerHTML = `${region.year} - ${region.region}`;              
                 
             }
 
@@ -150,7 +150,6 @@ footer {
                 }
             }
 
-
             animate();
         }
 
@@ -161,54 +160,55 @@ footer {
             }
 
             function animateArrow(currentSegment, callback) {
-                if (!pTGMarker) {
-                    // 創建箭頭標記
-                    pTGSymbo = new TGOS.TGSymbol(); // 在此處初始化 pTGSymbo
-                    pTGSymbo.symbolStyle = TGOS.TGSymbolStyle.FORWARD_CLOSED_ARROW;
-                    pTGSymbo.xPixel = 64;
-                    pTGSymbo.yPixel = 64;
-                    pTGSymbo.fillColor = "#aa2222";
-                    pTGSymbo.fillOpacity = 0.7;
-                    pTGSymbo.strokeWeight = 2;
-                    pTGSymbo.strokeOpacity = 0.4;
-                    pTGSymbo.strokeColor = "#000000";
-                    pTGSymbo.anchor.x = 32;
-                    pTGSymbo.anchor.y = 32;
+    if (!pTGMarker) {
+        // 創建箭頭標記
+        pTGSymbo = new TGOS.TGSymbol(); // 在此處初始化 pTGSymbo
+        pTGSymbo.symbolStyle = TGOS.TGSymbolStyle.FORWARD_CLOSED_ARROW;
+        pTGSymbo.xPixel = 64;
+        pTGSymbo.yPixel = 64;
+        pTGSymbo.fillColor = "#18b55c";
+        pTGSymbo.fillOpacity = 0.7;
+        pTGSymbo.strokeWeight = 2;
+        pTGSymbo.strokeOpacity = 0.4;
+        pTGSymbo.strokeColor = "#000000";
+        pTGSymbo.anchor.x = 32;
+        pTGSymbo.anchor.y = 32;
 
-                    pTGMarker = new TGOS.TGMarker(map, points[0], '', pTGSymbo);
-                    pTGMarker.setFlat(true);
-                }
+        pTGMarker = new TGOS.TGMarker(map, points[0], '', pTGSymbo);
+        pTGMarker.setFlat(true);
+    }
 
-                let currentFrame = 0;
-                const duration = 2500; // 每段動畫持續時間（毫秒）
-                const frameRate = 60; // 幀率
-                const interval = 1000 / frameRate; // 每幀的間隔時間
-                const frameCount = duration / interval;
-                const startPoint = points[currentSegment];
-                const endPoint = points[currentSegment + 1];
-                const deltaX = (endPoint.x - startPoint.x) / frameCount;
-                const deltaY = (endPoint.y - startPoint.y) / frameCount;
+    let currentFrame = 0;
+    const duration = spreadData[currentSegment].duration; // 使用從 spreadData 獲取的持續時間
+    const frameRate = 60; // 幀率
+    const interval = 1000 / frameRate; // 每幀的間隔時間
+    const frameCount = duration / interval;
+    const startPoint = points[currentSegment];
+    const endPoint = points[currentSegment + 1];
+    const deltaX = (endPoint.x - startPoint.x) / frameCount;
+    const deltaY = (endPoint.y - startPoint.y) / frameCount;
 
-                function updateArrow() {
-                    const newX = startPoint.x + deltaX * currentFrame;
-                    const newY = startPoint.y + deltaY * currentFrame;
-                    const newPoint = new TGOS.TGPoint(newX, newY);
-                    pTGMarker.setPosition(newPoint);
-                    const angle = angles[currentSegment];
-                    pTGSymbo.rotation = angle;
-                    pTGMarker.setIcon(pTGSymbo);
-                    map.setCenter(newPoint);
-                    currentFrame++;
+    function updateArrow() {
+        const newX = startPoint.x + deltaX * currentFrame;
+        const newY = startPoint.y + deltaY * currentFrame;
+        const newPoint = new TGOS.TGPoint(newX, newY);
+        pTGMarker.setPosition(newPoint);
+        const angle = angles[currentSegment];
+        pTGSymbo.rotation = angle;
+        pTGMarker.setIcon(pTGSymbo);
+        map.setCenter(newPoint);
+        currentFrame++;
 
-                    if (currentFrame < frameCount) {
-                        setTimeout(updateArrow, interval);
-                    } else {
-                        callback(); // 動畫完成後調用回調函數
-                    }
-                }
+        if (currentFrame < frameCount) {
+            setTimeout(updateArrow, interval);
+        } else {
+            callback(); // 動畫完成後調用回調函數
+        }
+    }
 
-                updateArrow();
-            }
+    updateArrow();
+}
+
 
             document.getElementById('replay-button').onclick = function() {
                 resetAnimation();
