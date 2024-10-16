@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小花蔓澤蘭擴散動畫</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column; /* 使按鈕位於地圖上方 */
+            align-items: center; /* 水平居中 */
+            background-color: #f0f0f0;
+        }
+        #map {
+            height: 600px;
+            width: 1400px;
+            margin-top: 10px; /* 與按鈕保持一點距離 */
+        }
+        #info-box {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(255, 255, 255, 0.8);
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 1000;
+            font-size: 14px;
+        }
+        #replay-button {
+            position: absolute;
+            bottom: 10px; /* 距離底部的距離 */
+            left: 37%; /* 距離左邊的距離 */
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #18b55c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1000; /* 確保按鈕在地圖上方 */
+        }
+        #replay-button:hover {
+            background-color: #044f1e;
+        }
+    </style>
+    <script
+    type="text/javascript"
+    src="http://api.tgos.tw/TGOS_API/tgos?ver=2&AppID=x+JLVSx85Lk=&APIKey=in8W74q0ogpcfW/STwicK8D5QwCdddJf05/7nb+OtDh8R99YN3T0LurV4xato3TpL/fOfylvJ9Wv/khZEsXEWxsBmg+GEj4AuokiNXCh14Rei21U5GtJpIkO++Mq3AguFK/ISDEWn4hMzqgrkxNe1Q=="
+    charset="utf-8"
+    ></script>
+</head>
+<body>
+    <button id="replay-button">重新播放動畫</button>
+    <div id="map"></div>
+    <div id="info-box">擴散信息將顯示在這裡</div>
+
+    <script>
+        function initMap() {
+            const map = new TGOS.TGOnlineMap(document.getElementById('map'), TGOS.TGCoordSys.EPSG3857);
+
+            const spreadData = [
+                { year: 1900, region: "東南亞", coords: [105.0, 10.0] },
+                { year: 1950, region: "亞熱帶", coords: [120.0, 30.0] },
+                { year: 1950, region: "大洋洲", coords: [135.0, -25.0] },
+                { year: 1970, region: "澳洲", coords: [150.0, -27.0] },
+                { year: 1980, region: "台灣", coords: [121.0, 23.5] },
+                { year: 1990, region: "廣東和香港", coords: [113.5, 22.3] },
+                { year: 2000, region: "廣東和香港", coords: [113.5, 22.3] }
+            ];
+
+            const bounds = new TGOS.TGEnvelope(90, -35, 160, 40);
+            const centerPoint = new TGOS.TGPoint((bounds.minX + bounds.maxX) / 2, (bounds.minY + bounds.maxY) / 2);
+
+            let markers = []; // 存儲所有標記點的數組
+
+            function drawRegionMarker(region) {
+                const marker = new TGOS.TGMarker(map, new TGOS.TGPoint(region.coords[0], region.coords[1]), region.region);
+                markers.push(marker); // 將新標記添加到數組中
+
+                const infoBox = document.getElementById('info-box');
+                infoBox.innerHTML = `${region.year} - ${region.region}`;
+                
+                const point = new TGOS.TGPoint(region.coords[0], region.coords[1]);
+                map.setCenter(point);
+                map.setZoom(4);
+            }
+
+            function clearMarkers() {
+                // 移除所有標記點
+                markers.forEach(marker => {
+                    marker.setMap(null);
+                });
+                markers = []; // 清空數組
+            }
+
+            let animationTimeout;
+            function createAnimation() {
+                clearMarkers(); // 在每次動畫開始前清除標記
+                let currentIndex = 0;
+
+                function animate() {
+                    if (currentIndex < spreadData.length) {
+                        drawRegionMarker(spreadData[currentIndex]);
+                        currentIndex++;
+                        animationTimeout = setTimeout(animate, 2000);
+                    }
+                }
+
+                animate();
+            }
+
+            function resetAnimation() {
+                clearTimeout(animationTimeout); // 停止當前的動畫
+                createAnimation(); // 重新播放動畫
+            }
+
+            document.getElementById('replay-button').addEventListener('click', resetAnimation);
+
+            map.fitBounds(bounds);
+            map.setCenter(centerPoint);
+            createAnimation();
+        }
+
+        window.onload = initMap;
+    </script>
+</body>
+</html>
