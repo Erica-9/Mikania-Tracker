@@ -29,23 +29,6 @@ const questions = ref([
         visible: false,
     },
 ]);
-// 當前顯示的問題 id
-// const currentQuestion = ref(1);
-// const answerRevealed = ref(false);
-
-// // 取得當前問題
-// const currentQuestionData = computed(() => questions.value.find((q) => q.id === currentQuestion.value));
-
-// // 點擊顯示答案
-// const revealAnswer = (index) => {
-//     questions.value[index].answerRevealed = true;
-// };
-// const nextQuestion = () => {
-//     if (currentQuestion.value < questions.value.length) {
-//         currentQuestion.value += 1;
-//         answerRevealed.value = false;
-//     }
-// };
 
 // 點擊顯示答案並顯示下一個問題
 const revealAnswer = (index) => {
