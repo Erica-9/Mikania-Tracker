@@ -22,14 +22,10 @@
         <div class="FindLayout">
             <div>
                 <div class="FindTitle">蔓影辨識</div>
-                <div class="FindTxt">
-                    上傳你採集到的植物照片，告訴你是不是小花蔓澤蘭!
-                </div>
+                <div class="FindTxt">上傳你採集到的植物照片，告訴你是不是小花蔓澤蘭!</div>
             </div>
-            <input id="upload" style="display: none;" type="file" @change="onFileChange()">
-            <label type="button" for="upload" class="Choose">
-                選擇圖片
-            </label>
+            <input id="upload" style="display: none" type="file" @change="onFileChange()" />
+            <label type="button" for="upload" class="Choose"> 選擇圖片 </label>
         </div>
         <!-- 顯示 ImageData 的值，幫助調試 -->
         <div v-if="ImageData">
@@ -40,7 +36,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import axios from 'axios';
+// import axios from 'axios';
 
 // 接收父層傳入的 props
 const props = defineProps({
@@ -51,31 +47,31 @@ const props = defineProps({
     content: {
         type: String,
         default: 'Default Content',
-    }
+    },
 });
 
 const ImageData = ref(null); // 儲存圖片資料
-const apiUrl = "https://my-api.plantnet.org/v2/identify/all";
-const apiKey = "2b10xeOhz25YY8Qt5USglwtZze";
+const apiUrl = 'https://my-api.plantnet.org/v2/identify/all';
+const apiKey = '2b10xeOhz25YY8Qt5USglwtZze';
 
 // 處理圖片選擇變更
 const onFileChange = async (event) => {
-    console.log("觸發 onFileChange");
+    console.log('觸發 onFileChange');
     const file = event.target.files[0];
     if (file) {
         ImageData.value = file;
-        console.log("選擇的檔案:", file.name); // 檢查檔案名稱
+        console.log('選擇的檔案:', file.name); // 檢查檔案名稱
 
         const formData = new FormData();
-        formData.append("images", file); // 添加選擇的圖片
-        formData.append("organs", "auto"); // 相關器官
+        formData.append('images', file); // 添加選擇的圖片
+        formData.append('organs', 'auto'); // 相關器官
 
         const queryParams = {
-            "include-related-images": false,
-            "no-reject": false,
-            "nb-results": 10,
-            lang: "zh",
-            "api-key": apiKey,
+            'include-related-images': false,
+            'no-reject': false,
+            'nb-results': 10,
+            lang: 'zh',
+            'api-key': apiKey,
         };
 
         try {
@@ -84,12 +80,12 @@ const onFileChange = async (event) => {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            console.log("API 回應:", response.data);
+            console.log('API 回應:', response.data);
         } catch (error) {
-            console.error("API 請求錯誤:", error.response ? error.response.data : error.message);
+            console.error('API 請求錯誤:', error.response ? error.response.data : error.message);
         }
     } else {
-        console.log("未選擇檔案");
+        console.log('未選擇檔案');
     }
 };
 </script>

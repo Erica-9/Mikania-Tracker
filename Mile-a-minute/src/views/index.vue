@@ -2,10 +2,10 @@
 import { onMounted } from 'vue';
 import PointData from '../components/PointData.vue';
 import data from '@/data';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
-import markerImg from '@/assets/png/grass.png'
-import markerImg2 from '@/assets/png/tack.png'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import markerImg from '@/assets/png/grass.png';
+import markerImg2 from '@/assets/png/tack.png';
 
 function loadTGOSScript() {
     return new Promise((resolve, reject) => {
@@ -170,7 +170,12 @@ function buffer() {
 }
 function Sort() {
     const Img = new TGOS.TGImage(markerImg, new TGOS.TGSize(21, 21), new TGOS.TGPoint(0, 0), new TGOS.TGPoint(11, 11));
-    const Img2 = new TGOS.TGImage(markerImg2, new TGOS.TGSize(24, 24), new TGOS.TGPoint(12, 12), new TGOS.TGPoint(0, 0))
+    const Img2 = new TGOS.TGImage(
+        markerImg2,
+        new TGOS.TGSize(24, 24),
+        new TGOS.TGPoint(12, 12),
+        new TGOS.TGPoint(0, 0)
+    );
     clearMarkerClusters();
     for (let i = 0; i < markers.length; i++) {
         markers[i].setIcon(Img);
@@ -252,21 +257,23 @@ onMounted(() => {
 </script>
 
 <template>
-    <Header />
-    <div class="Layout">
-        <div class="m-0">
-            <div id="TGMap" class="TGMap"></div>
-            <div class="useMap">
-                <div class="SearchLayout">
-                    <input id="district" v-model="districtInput" />
-                    <font-awesome-icon class="SearchIcon" :icon="faMagnifyingGlass" @click="locateDistrict()" />
-                </div>
-                <div class="mapButton">
-                    <button @click="addMarkerClusters()">切換群聚標記點</button>
-                    <button @click="addMarker()">切換標記點</button>
-                    <button @click="toggleHeatmap()">切換熱區</button>
-                    <button @click="buffer()">定位查詢</button>
-                    <button @click="Sort()">分類</button>
+    <div>
+        <Header />
+        <div class="Layout">
+            <div class="m-0">
+                <div id="TGMap" class="TGMap"></div>
+                <div class="useMap">
+                    <div class="SearchLayout">
+                        <input id="district" v-model="districtInput" />
+                        <font-awesome-icon class="SearchIcon" :icon="faMagnifyingGlass" @click="locateDistrict()" />
+                    </div>
+                    <div class="mapButton">
+                        <button @click="addMarkerClusters()">切換群聚標記點</button>
+                        <button @click="addMarker()">切換標記點</button>
+                        <button @click="toggleHeatmap()">切換熱區</button>
+                        <button @click="buffer()">定位查詢</button>
+                        <button @click="Sort()">分類</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -280,7 +287,6 @@ onMounted(() => {
 
 .TGMap {
     height: calc(100vh - 5rem);
-
 }
 
 .m-0 {
@@ -296,7 +302,6 @@ onMounted(() => {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-
 }
 
 .useMap input {

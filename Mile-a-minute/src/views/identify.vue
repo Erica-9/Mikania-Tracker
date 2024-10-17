@@ -41,8 +41,8 @@ const revealAnswer = (index) => {
 <template>
     <div>
         <Header />
-        <div class="bg-background bg-cover bg-fixed pt-10 p-8 sm:p-16 h-[100vh] font-serif lg:flex-col">
-            <div class="relative lg:flex lg:justify-between">
+        <div class="bg-background bg-repeat-y pt-10 p-8 sm:p-16 min-h-screen font-serif">
+            <div class="lg:flex lg:justify-between">
                 <div>
                     <h1 class="wow animate__lightSpeedInLeft text-2xl pb-6 font-semibold">𓇗 小花蔓澤蘭的生長過程⋯</h1>
 
@@ -79,17 +79,52 @@ const revealAnswer = (index) => {
                     loop
                     muted="muted"
                 ></video>
-
-                <!-- <img src="@/assets/png/identify1.png" class="w-[350px] pt-[500px]" alt="" /> -->
             </div>
-            <h1 class="wow animate__lightSpeedInLeft text-2xl pb-4 font-semibold">
+            <h1 class="wow animate__lightSpeedInLeft text-2xl pb-6 font-semibold">
                 𓇗 小花蔓澤蘭是怎麼導致植物死亡的？帶來了什麼危害呢？
             </h1>
 
-            <h1 class="wow animate__lightSpeedInLeft text-2xl pb-4 font-semibold">
+            <h1 class="wow animate__lightSpeedInLeft text-2xl pb-6 font-semibold">
                 𓇗 如何分辨小花蔓澤蘭及其他植物呢？
             </h1>
-            <div></div>
+            <div class="flex flex-col sm:flex-row justify-start gap-6">
+                <div class="relative sm:w-[364px]">
+                    <img
+                        src="@/assets/png/identify1.png"
+                        class="wow animate__flipInX w-[350px] h-[220px] sm:h-[250px] rounded-xl relative"
+                        alt=""
+                    />
+                    <div
+                        class="wow animate__flipInX border-green-800 absolute border-4 left-20 sm:left-[28%] bg-clip-padding bg-lime-50 rounded-md top-[-4px]"
+                    >
+                        莖節上有撕裂狀凸起
+                    </div>
+                    <img
+                        src="@/assets/png/111.png"
+                        class="border-green-800 absolute border-8 h-28 w-28 rounded-full right-[-14px] bottom-[-14px]"
+                        alt=""
+                    />
+                    <p class="w-[70%]">小花蔓澤蘭的葉片呈現三角狀卵形，約6~9公分長，開的花成黃白色至綠色。</p>
+                </div>
+                <div class="relative sm:w-[364px]">
+                    <img
+                        src="@/assets/png/identify2.jpg"
+                        class="wow animate__flipInX w-[350px] h-[220px] sm:h-[250px] rounded-xl relative"
+                        alt=""
+                    />
+                    <div
+                        class="wow animate__flipInX border-green-800 absolute border-4 left-[88px] sm:left-[30%] bg-clip-padding bg-lime-50 rounded-md top-[-4px]"
+                    >
+                        莖節上有耳狀凸起
+                    </div>
+                    <img
+                        src="@/assets/png/222.png"
+                        class="border-green-800 absolute border-8 h-28 w-28 rounded-full right-[-14px] bottom-[-14px]"
+                        alt=""
+                    />
+                    <p class="w-[70%]">蔓澤蘭葉片較大，約10~12公分，邊緣鋸齒較明顯，花朵較大。</p>
+                </div>
+            </div>
         </div>
     </div>
 </template>
