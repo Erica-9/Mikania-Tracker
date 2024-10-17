@@ -80,9 +80,9 @@ const revealAnswer = (index) => {
                     muted="muted"
                 ></video>
             </div>
-            <h1 class="wow animate__lightSpeedInLeft text-2xl pb-6 font-semibold">
+            <!-- <h1 class="wow animate__lightSpeedInLeft text-2xl pb-6 font-semibold">
                 𓇗 小花蔓澤蘭是怎麼導致植物死亡的？帶來了什麼危害呢？
-            </h1>
+            </h1> -->
 
             <h1 class="wow animate__lightSpeedInLeft text-2xl pb-6 font-semibold">
                 𓇗 如何分辨小花蔓澤蘭及其他植物呢？
